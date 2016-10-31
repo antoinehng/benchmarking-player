@@ -5,7 +5,7 @@
         <script src="../../players/hls.js/dist/hls.js"></script>
     </head>
     <body>
-        <video id="video" controls height="360px" width="540px"></video>
+        <video id="video" controls ></video>
         <br />
         <button type="button" class="btn btn-sm" onclick="toggleSubtitles()">show/hide subtitles</button>
         <br />
@@ -23,7 +23,7 @@
           function updateSubtitles() {
             var captions = document.getElementById('captions');
             var textTracks = document.getElementById("video").textTracks;
-            if (textTracks[0] && textTracks[0].activeCues && textTracks[0].activeCues[0]) {
+            if (textTracks && textTracks[0] && textTracks[0].activeCues && textTracks[0].activeCues[0]) {
               var text = textTracks[0].activeCues[0].text;
               console.log(text)
               captions.innerHTML = text;  
