@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+    <head>
+        <title>hls.js Rocks</title>
+        <script src="../../players/hls.js/dist/hls.js"></script>
+        <style>
+        #video {
+          position:absolute;
+        }
+        #video2 {
+          position:absolute;
+          margin: 15 15;
+          width: 144px;
+          height: 216px;
+        } 
+        #buttons {
+          position: absolute;
+        }
+        </style>
+    </head>
+    <body>
+      <div id="videoContainer">
+        <video id="video" controls height="360px" width="540px"></video>
+        <video id="video2" ></video>
+      </div>
+      <div id="buttons">
+        <button type="button" class="btn btn-sm" onclick="detachMedia()">detachMedia</button>
+        <button type="button" class="btn btn-sm" onclick="attachMedia()">attachMedia</button>
+        <button type="button" class="btn btn-sm" onclick="attachAd('ad1')">attach Ad1</button>
+        <button type="button" class="btn btn-sm" onclick="detachAd('ad1')">detach Ad1</button>
+        <button type="button" class="btn btn-sm" onclick="attachAd('ad2')">attach Ad2</button>
+        <button type="button" class="btn btn-sm" onclick="detachAd('ad2')">detach Ad2</button>
+        <button type="button" class="btn btn-sm" onclick="launchVideo2()">launch Video 2</button>
+      </div>
+        <script type="text/javascript">
+          if(Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var config = {}
+            var hls = new Hls(config);
+            hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function(event, data) {
+              console.log("MANIFEST_PARSED", data)
+              video.play();
+              //updateSubtitles();
+            });
+            hls.on(Hls.Events.KEY_LOADED ,function(event, data) {
+              console.log("KEY_LOADED ", data)
+            });
+
+            function detachMedia() {
+              var video = document.getElementById('video');
+              window._VIDEO_currentTime = video.currentTime;
+              hls.detachMedia(video);
+
+            }
+
+            function attachMedia() {
+              var video = document.getElementById('video');
+              hls.attachMedia(video);
+              hls.currentTime = window._VIDEO_currentTime;
+            }
+
+            function attachAd(id) {
+              var video = document.getElementById('video');
+              
+              if (id == "ad1") {
+                video.poster = "../../media/streamroot-ad.jpg"
+              } else {
+                video.src = "../../media/ad.mp4"
+                video.play()
+              } 
+                
+            }
+
+            function detachAd(id) {
+              var video = document.getElementById('video');
+              if (id == "ad1") {
+                video.poster = null;
+              } else {
+                video.src = null;
+              } 
+            }
+
+            function launchVideo2 () {
+              var video2 = document.getElementById('video2');
+              var hls2 = new Hls();
+              hls2.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
+              hls2.attachMedia(video2);
+              hls2.on(Hls.Events.MANIFEST_PARSED,function(event, data) {
+                video2.play();
+                video2.playbackRate =2.0;
+              });
+            }
+         }
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

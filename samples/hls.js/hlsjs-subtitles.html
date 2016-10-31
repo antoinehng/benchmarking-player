@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+    <head>
+        <title>hls.js Rocks</title>
+        <script src="../../players/hls.js/dist/hls.js"></script>
+    </head>
+    <body>
+        <video id="video" controls height="360px" width="540px"></video>
+        <br />
+        <button type="button" class="btn btn-sm" onclick="toggleSubtitles()">show/hide subtitles</button>
+        <br />
+        Text :   <div id="captions"></div>
+        <script>
+          function toggleSubtitles() {
+            var video = document.getElementById('video');
+            if (video.textTracks[0].mode == "showing") {
+              video.textTracks[0].mode = "hidden"
+            } else {
+              video.textTracks[0].mode = "showing"
+            }
+          }
+
+          function updateSubtitles() {
+            var captions = document.getElementById('captions');
+            var textTracks = document.getElementById("video").textTracks;
+            if (textTracks[0] && textTracks[0].activeCues && textTracks[0].activeCues[0]) {
+              var text = textTracks[0].activeCues[0].text;
+              console.log(text)
+              captions.innerHTML = text;  
+            } else {
+              console.log("no active cues")
+            }
+            setTimeout(updateSubtitles, 1000);
+          }
+
+          if(Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var config = {
+              enableCEA708Captions: true
+            }
+            var hls = new Hls(config);
+            hls.loadSource('http://playertest.longtailvideo.com/adaptive/captions/playlist.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function(event, data) {
+              console.log("MANIFEST_PARSED", data)
+              video.play();
+              updateSubtitles();
+            });
+            hls.on(Hls.Events.FRAG_PARSING_USERDATA ,function(event, data) {
+              console.log("FRAG_PARSING_USERDATA ", data)
+            });
+
+
+
+         }
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+

@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dash.js Rocks</title>
+        <style>
+            video {
+                width: 640px;
+                height: 360px;
+            }
+        </style>
+        <script src="../../players/dash.js/dist/dash.all.min.js"></script>
+    </head>
+    <body>
+        <div>
+            <video id="video" controls></video>
+            <div id="ttml"></div>
+        </div>
+        <br />
+        <button type="button" class="btn btn-sm" onclick="toggleSubtitles()">show/hide subtitles</button>
+        <br />
+        Text :   <div id="captions"></div>
+        <script>
+            function toggleSubtitles() {
+                var video = document.getElementById('video');
+                if (video.textTracks[0].mode == "showing") {
+                    video.textTracks[0].mode = "hidden"
+                } else {
+                    video.textTracks[0].mode = "showing"
+                }
+            }
+
+            function updateSubtitles() {
+                var captions = document.getElementById('captions');
+                var textTracks = document.getElementById("video").textTracks;
+                if (textTracks && textTracks[0] && textTracks[0].activeCues && textTracks[0].activeCues[0]) {
+                    var text = textTracks[0].activeCues[0].text;
+                    console.log(text)
+                    captions.innerHTML = text;  
+                } else {
+                    console.log("no active cues")
+                }
+                setTimeout(updateSubtitles, 1000);
+            }
+
+
+            (function(){
+                var url = "http://vm2.dashif.org/dash/vod/testpic_2s/multi_subs.mpd";
+                var player = dashjs.MediaPlayer().create();
+                player.initialize(document.querySelector("#video"), url, true);
+                updateSubtitles();
+            })();
+        </script>
+    </body>
+</html>

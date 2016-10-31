@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Test</title>
+
+    <script>
+        results = sessionStorage.getItem('results');
+        nb = Number(sessionStorage.getItem('nb'));
+
+        if (results == null) {
+            results = "";
+        }
+
+        function save() {
+            var end = performance.now();
+
+            sessionStorage.setItem('results', results + (end - start) + "|");
+            sessionStorage.setItem('nb', nb+1);
+
+            if (nb < 99){
+                setTimeout(function(){document.location.reload(true);}, 300);
+            } else {
+                let result = sessionStorage.getItem('results');
+                document.body.innerHTML = "<p>" + result.replace(/\./g, ',').replace(/\|/g, '<br>') + "</p>"
+                + "<p>" + result + "</p>";
+                sessionStorage.setItem('results', "");
+                sessionStorage.setItem('nb', 0);
+            }
+        }
+
+        start = performance.now();
+    </script>
+  </head>
+  <body>
+      <video id="video" onplay="save()"></video>
+
+      <script>
+    </script>
+
+  </body>
+</html>

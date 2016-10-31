@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Dash.js Rocks</title>
+        <style>
+            video {
+                width: 640px;
+                height: 360px;
+            }
+
+            #video {
+                position:absolute;
+            }
+            #video2 {
+                position:absolute;
+                margin: 15 15;
+                width: 144px;
+                height: 216px;
+            } 
+            #buttons {
+                position: absolute;
+            }
+        </style>
+        <script src="../../players/dash.js/dist/dash.all.min.js"></script>
+    </head>
+    <body>
+        <div id="videoContainer">
+          <video id="video" controls height="360px" width="540px"></video>
+          <video id="video2" ></video>
+        </div>
+        <div id="buttons">
+          <button type="button" class="btn btn-sm" onclick="detachMedia()">detachMedia</button>
+          <button type="button" class="btn btn-sm" onclick="attachMedia()">attachMedia</button>
+          <button type="button" class="btn btn-sm" onclick="attachAd('ad1')">attach Ad1</button>
+          <button type="button" class="btn btn-sm" onclick="detachAd('ad1')">detach Ad1</button>
+          <button type="button" class="btn btn-sm" onclick="attachAd('ad2')">attach Ad2</button>
+          <button type="button" class="btn btn-sm" onclick="detachAd('ad2')">detach Ad2</button>
+          <button type="button" class="btn btn-sm" onclick="launchVideo2()">launch Video 2</button>
+          </div>
+        
+        <script>
+            
+            var url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd";
+            var player = dashjs.MediaPlayer().create();
+            player.initialize(document.querySelector("#video"), url, true);
+            
+            function detachMedia() {
+                var video = document.getElementById('video');
+                window._VIDEO_currentTime = video.currentTime;
+                video.src = null;
+            }
+
+            function attachMedia() {
+                var video = document.getElementById('video');
+                player.attachView(video)
+                player.seek(window._VIDEO_currentTime);
+            }
+
+            function attachAd(id) {
+                var video = document.getElementById('video');
+              
+                if (id == "ad1") {
+                    video.poster = "../../media/streamroot-ad.jpg"
+                } else {
+                    video.src = "../../media/ad.mp4"
+                    video.play()
+              } 
+                
+            }
+
+            function detachAd(id) {
+                var video = document.getElementById('video');
+                if (id == "ad1") {
+                    video.poster = null;
+                } else {
+                    video.src = null;
+              } 
+            }
+
+            function launchVideo2 () {
+                var video2 = document.getElementById('video2');
+
+                var url = "http://rdmedia.bbc.co.uk/dash/ondemand/testcard/1/client_manifest-events.mpd";
+                var player = dashjs.MediaPlayer().create();
+                player.initialize(document.querySelector("#video2"), url, true);
+                video2.playbackRate = 0.5;
+            }
+        </script>
+    </body>
+</html>
