@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+    <head>
+        <title>hls.js Rocks</title>
+        <script src="../../players/hls.js/dist/hls.js"></script>
+    </head>
+    <body>
+        <video id="video" controls height="360px" width="540px"></video>
+        <script type="text/javascript">
+          if(Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var config = {}
+            var hls = new Hls(config);
+            hls.loadSource('http://www.streambox.fr/playlists/test_001/stream.m3u8');
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED,function(event, data) {
+              console.log("MANIFEST_PARSED", data)
+              video.play();
+              //updateSubtitles();
+            });
+         }
+        </script>
+    </body>
+</html>
+
+
+
+
+
+
+
