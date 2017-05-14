@@ -23,8 +23,8 @@
           function updateSubtitles() {
             var captions = document.getElementById('captions');
             var textTracks = document.getElementById("video").textTracks;
-            if (textTracks && textTracks[0] && textTracks[0].activeCues && textTracks[0].activeCues[0]) {
-              var text = textTracks[0].activeCues[0].text;
+            if (textTracks && textTracks[1] && textTracks[1].activeCues && textTracks[1].activeCues[0]) {
+              var text = textTracks[1].activeCues[0].text;
               console.log(text)
               captions.innerHTML = text;  
             } else {
