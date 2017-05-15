@@ -11,21 +11,16 @@
         <!-- streamroot-dash wrapper -->
         <script src="http://cdn.dashjs.org/latest/dash.all.min.js"></script>
         <!-- <script src="../../players/dash.js/dist/dash.all.min.js"></script> ---->
-        <script src="http://preprod.streamroot.io.s3.amazonaws.com/dashjs-p2p-wrapper/latest/dashjs-p2p-wrapper.js"></script>
+        <script src="http://cdn.streamroot.io/dashjs-p2p-wrapper/latest/dashjs-p2p-wrapper.js"></script>
+        <script src="//tools.streamroot.io/usage-graphs/stable/graphs.js"></script>
 
-        <!-- p2p graphics and peer stats -->
-        <script src="http://cdn.streamroot.io/2/scripts/peerStat.js"></script>
-        <script src="http://cdn.streamroot.io/2/scripts/p2pGraph.js"></script>
-        <!-- graph dependencies -->
-        <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.css">
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/rickshaw/1.4.6/rickshaw.min.js"></script>
-        <script src="http://cdnjs.cloudflare.com/ajax/libs/d3/3.4.9/d3.min.js"></script>
+
+        
     </head>
     <body>
         <div>
             <video id="video" controls></video>
-            <div id="p2pGraph" />
-            <div id="peerStat"/>
+            <div id="streamroot-graphs">
         </div>
         <script>
             (function(){
